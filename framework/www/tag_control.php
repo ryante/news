@@ -62,6 +62,13 @@ class tag_control extends phpok_control
 				$rslist[] = $this->call->phpok('_arc',array('title_id'=>$value['id']));
 			}
 		}
+		//add
+		foreach ($rslist as $key => $value) {
+			$cate_id = $rslist[$key]['cate_id'];
+			$rslist[$key]['cate']['title'] = $rslist[$key]['_catelist'][$cate_id]['title'];
+			$rslist[$key]['cate']['url'] = $rslist[$key]['_catelist'][$cate_id]['url'];
+		}
+		
 		$this->assign("rslist",$rslist);
 		$pageurl = $this->url('tag','','title='.rawurlencode($title));
 		$this->assign("pageurl",$pageurl);
@@ -70,7 +77,8 @@ class tag_control extends phpok_control
 		$this->assign("psize",$psize);
 		$this->assign("keywords",$title);
 		$this->assign("rs",$rs);
-		$this->view('tag');
+		// $this->view('tag');
+		$this->view('article_list');
 	}
 }
 ?>

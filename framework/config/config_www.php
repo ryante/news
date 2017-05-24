@@ -19,3 +19,5 @@ $config["is_vcode"] = true;
 
 $config["gzip"] = true;//启用压缩
 
+//资讯项目ID
+define('NEWS_PROJECT_ID',43);
