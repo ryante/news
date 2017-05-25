@@ -164,11 +164,11 @@
             }, t("#j-newslist").on("click", ".tab", function () {
                 var e = t(this), i = e.parent(), n = t(".tab-list");
                 i.find(".tab").removeClass("active"), e.addClass("active"), n.removeClass("active"), n.eq(e.index()).addClass("active");
-                var a = e.find("a").data("id");
+                var a = e.find("a").data("identifier");
                 a && 1 != e.data("loaded") && (n.eq(e.index()).addClass("loading"), t.ajax({
                     type: "POST",
                     url: wpcom_ajaxurl,
-                    data: {action: "wpcom_load_posts", id: a},
+                    data: {c: "project", action: "get_index_article", id: 'news', pageid: 1, 'token': 1, 'fields': 'thumb,note', 'cate': a},
                     dataType: "html",
                     success: function (i) {
                         if (n.eq(e.index()).removeClass("loading"), "0" == i){
@@ -187,11 +187,12 @@
             }), t(".article-list").on("click", ".load-more", function () {
                 var e = t(this);
                 if (!e.hasClass("disabled")) {
-                    var i = e.data("id"), n = e.data("page");
+                    var n = e.data("page");
+                    var cate = e.data("cate");
                     n = n ? n + 1 : 2, e.parent().addClass("loading"), t.ajax({
                         type: "POST",
                         url: wpcom_ajaxurl,
-                        data: {action: "wpcom_load_posts", id: i, page: n},
+                        data: {c: "project", action: "get_index_article", id: 'news', pageid: n, 'token': 1, 'fields': 'thumb,note', 'cate': cate},
                         dataType: "html",
                         success: function (i) {
                             if ("0" == i)e.addClass("disabled").text("已经到底了"); else {

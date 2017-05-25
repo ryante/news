@@ -50,7 +50,7 @@
                     <ul class="list tabs" id="j-newslist">
                         <li class="tab active"><a data-id="0" href="javascript:;">最新</a></li>
                         <!-- loop from=$news_catelist key=$key value=$value id=mindex-->
-                        <li class="tab "><a data-id="{$value.id}" href="javascript:;">{$value.title}</a></li>
+                        <li class="tab "><a data-identifier="{$value.identifier}" href="javascript:;">{$value.title}</a></li>
                         <!-- /loop -->
                     </ul>
                 </div>
@@ -74,23 +74,19 @@
                                 </p>
                             </div>
                             <div class="item-meta">
-                                <span class="item-meta-li date">2017年4月20日</span>
-                                <span class="item-meta-li views" title="阅读数"><i class="fa fa-eye"></i> <span class="data">277</span></span>
+                                <span class="item-meta-li date">{=date('Y-m-d H:i')}</span>
+                                <span class="item-meta-li views" title="阅读数"><i class="fa fa-eye"></i> <span class="data">{$value.hits}</span></span>
                             </div>
                         </div>
                     </li>
                     <!-- /loop -->
-
-
-                    <!-- if $news_list.total > 1-->
                     <li class="load-more-wrap">
-                        <a class="load-more" href="javascript:;">点击查看更多</a>
+                        <a class="load-more" href="javascript:;" data-cate=''>点击查看更多</a>
                     </li>
-                    <!-- /if -->
                 </ul>
 
                 <!-- loop from=$news_catelist key=$key value=$value id=mindex-->
-                    <ul class="article-list tab-list "></ul>
+                    <ul class="article-list tab-list " ></ul>
                  <!-- /loop -->
             </div>
         </div>

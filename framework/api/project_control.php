@@ -60,6 +60,15 @@ class project_control extends phpok_control
 		if($project["module"]){
 			$this->load_module($project,$parent_rs);
 		}
+		$action = $this->get('action');
+		if ($action == 'get_index_article'){
+			if (!empty($this->rlist['rslist'])) {
+				echo $this->format_article_list($this->rlist, $this->get('pageid'));
+			} else {
+				echo 0;
+			}
+			exit;
+		}
 		$this->json($this->rlist,true);
 	}
 
@@ -208,7 +217,8 @@ class project_control extends phpok_control
 		$info = $this->call->phpok('_arclist',$dt);
 		unset($dt);
 		if(!$info['rslist']){
-			$this->json(P_Lang('已是最后一条数据'));
+			echo '0';exit;
+			//$this->json(P_Lang('已是最后一条数据'));
 		}
 		$rslist = array();
 		$funclist = $this->get('_func');
@@ -237,8 +247,50 @@ class project_control extends phpok_control
 		$this->rlist['psize'] = $psize;
 		$this->rlist['pageurl'] = $pageurl;
 		$this->rlist['total'] = $total;
-		$this->rlist['rslist'] = $rslist;
+		$this->rlist['rslist'] = empty($rslist) ? $info['rslist'] : $rslist;
 		unset($rslist,$total,$pageurl,$psize,$pageid,$rs,$parent_rs);
+	}
+
+
+	//首页文章格式化
+	public function format_article_list($data, $pageid){
+		if (empty($data) || !is_array($data)) {
+			return false;
+		}
+		$list = $data['rslist'];
+		$html = '';
+		foreach ($list as $key => $value) {
+			$date = date('Y-m-d H:i', $value['dateline']);
+			$html .= <<<EOT
+			 <li class="item">
+                <div class="item-img">
+                    <a href="{$value[url]}" title="{$value[title]}" >
+                        <img class="j-lazy" src="" data-original="{$value[thumb][filename]}" >
+                    </a>
+                    <a class="item-category" href="{$value[cate][url]}">{$value[cate][title]}</a>
+                </div>
+                <div class="item-content">
+                    <h2 class="item-title">
+                    <a href="{$value[url]}" title="{$value[title]}" >{$value[title]}</a>
+                    </h2>
+                    <div class="item-excerpt">
+                        <p>
+                            {$value[note]}
+                        </p>
+                    </div>
+                    <div class="item-meta">
+                        <span class="item-meta-li date">{$date}</span>
+                        <span class="item-meta-li views" title="阅读数"><i class="fa fa-eye"></i> <span class="data">{$value[hits]}</span></span>
+                    </div>
+                </div>
+            </li>
+
+EOT;
+		}
+		if ($pageid == 1) {
+			$html .= "<li class='load-more-wrap'><a class='load-more' data-cate='" . $data['cate_rs']['identifier'] . "' href='javascript:;'>点击查看更多</a></li>";
+		}
+		return $html;
 	}
 }
 ?>
