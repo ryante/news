@@ -43,7 +43,7 @@ h1{font-size:44px; color:#0188DE; padding:20px 0px 20px 0px;}
 	<h1>(404)抱歉，找不到此页面~</h1>
 	<font color="#666666">你请求访问的页面，暂时找不到，我们建议你返回首页官网进行浏览，谢谢！</font><br /><br />
 	<div class="button">
-		<a href="<?php echo $this->site['url'];?>" title="进入官网">进入官网</a>
+		<a href="/index.php" title="进入官网">进入官网</a>
 	</div>
 </div>
 

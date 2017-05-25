@@ -75,4 +75,5 @@ class index_control extends phpok_control
 		$this->session->assign('introducer',$uid);
 		$this->_location($this->config['www_file']);
 	}
+
 }

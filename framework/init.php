@@ -1241,6 +1241,7 @@ class _init_phpok
 				$ctrl = intval($id)>0 ? 'content' : $this->model('id')->get_ctrl($id,$this->site['id']);
 				if(!$ctrl){
 					$this->error_404();
+					exit;
 				}
 			}
 			if($ctrl == 'post'){
@@ -1497,16 +1498,23 @@ class _init_phpok
 	**/
 	final public function error_404($ajax=false)
 	{
-		$this->plugin("error-404");
+		// $this->plugin("error-404");
+		// header("HTTP/1.0 404 Not Found");
+		// header('Status: 404 Not Found');
+		// if(true === $ajax || $this->is_ajax){
+		// 	header('Content-Type:application/json; charset=utf-8');
+  //           exit($this->lib('json')->encode(array('status'=>false,'info'=>P_Lang('404错误'))));
+  //       }
+		// if($this->tpl->check_exists('404')){
+		// 	$this->view('404');
+		// }
+		// exit;
+
+		if(file_exists(ROOT.'phpinc/404.php')){
+			require(ROOT.'phpinc/404.php');
+		}
 		header("HTTP/1.0 404 Not Found");
 		header('Status: 404 Not Found');
-		if(true === $ajax || $this->is_ajax){
-			header('Content-Type:application/json; charset=utf-8');
-            exit($this->lib('json')->encode(array('status'=>false,'info'=>P_Lang('404错误'))));
-        }
-		if($this->tpl->check_exists('404')){
-			$this->view('404');
-		}
 		exit;
 	}
 
@@ -1862,6 +1870,7 @@ class phpok_control extends _init_auto
 		parent::__destruct();
 		unset($this);
 	}
+
 }
 
 /**
